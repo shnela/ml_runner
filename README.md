@@ -1,43 +1,27 @@
 # README
 
-## Dynamic routes
-[Instrukcja](https://flask.palletsprojects.com/en/1.1.x/api/#url-route-registrations)
+## Jinja templates
+[Instrukcja](https://flask.palletsprojects.com/en/1.1.x/quickstart/#rendering-templates
 
+## Assignment (Statements)
+* [Statements doc](https://jinja2docs.readthedocs.io/en/stable/templates.html#list-of-control-structures)
 
-## Set `FLASK_ENV=development`
+### For statement
+* [Statements doc - for](https://jinja2docs.readthedocs.io/en/stable/templates.html#for)
+* [HTML unordered list doc](https://www.w3schools.com/HTML/html_lists.asp)
+* Update: `def hello_from_kwargs(name, amount):`. `name` and `amount` should be obtained from url kwargs.
+* For `hello_from_kwargs` create new template which will display `name` and `amount` as `index.html` does.
+* Update new template which will display `name` value `anount` times using html list.
 
-### Cygwin
-```bash
-# run application
-$ FLASK_APP='main.py' FLASK_ENV=development flask run
-```
+Tips!:
+* Python loop iterating n times: `for _ in range(n):`
+* `amount` passed from kwargs is of type str (must be converted to int `int(amount)`)
 
-### pyCharm
-Add `FLASK_ENV=development` in `Run configuration` -> `Environment variables`
+### If statement
+* [Statements doc - if](https://jinja2docs.readthedocs.io/en/stable/templates.html#if)
+* [HTML strong tag doc](https://www.w3schools.com/tags/tag_strong.asp)
+* If `name` pased to `hello_from_kwargs` equals `Admin` - display name only once. All other names should work as before.
+* Additionally wrap every second name in list with `<strong>This text is important!</strong>`
 
-## Remember about trailing slashes
-```python
-@app.route('/user/<string:name>')  # wrong
-@app.route('/user/<string:name>/')
-```
-
-## Zadanie
-### url converters
-Define functions:
-* hello_number(number: int):
-* hello_uuid(uuid):
-* hello_both(text, number):
-
-Visit:
-* http://127.0.0.1:5000/user/name/
-* http://127.0.0.1:5000/user/42/
-* http://127.0.0.1:5000/user/123e4567-e89b-12d3-a456-426614174000/
-* http://127.0.0.1:5000/user/he/man/42/  # make it work
-
-
-### `hello_from_kwargs` available in two urls
-Make `hello_from_kwargs` view available under `/other_link/<name>/`
-
-### Use `add_url_rule`
-Use [`add_url_rule`](https://flask.palletsprojects.com/en/1.1.x/api/#flask.Flask.add_url_rule) instead of `app.route`
-decorator.
+Tips!:
+* use `loop.index` and check modulo 2 to detect even / odd elements
