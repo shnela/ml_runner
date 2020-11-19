@@ -1,5 +1,10 @@
 {% extends "bootstrap/base.html" %}
 
+{% block head %}
+  {{ super() }}
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/flask-icon.png') }}"/>
+{% endblock %}
+
 {% block navbar %}
 <nav class="navbar navbar-default">
   <div class="container-fluid">
