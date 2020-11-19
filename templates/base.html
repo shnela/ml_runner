@@ -1,8 +1,8 @@
 {% extends "bootstrap/base.html" %}
 
 {% block head %}
-  {{ super() }}
-  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/flask-icon.png') }}"/>
+{{ super() }}
+<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='img/flask-icon.png') }}"/>
 {% endblock %}
 
 {% block navbar %}
@@ -41,3 +41,8 @@
   </div><!-- /.container-fluid -->
 </nav>
 {% endblock navbar %}
+
+{% block scripts %}
+  {{ super() }}
+  {{ moment.include_moment() }}
+{% endblock scripts %}

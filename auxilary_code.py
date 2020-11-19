@@ -1,9 +1,6 @@
-from flask import url_for, current_app
-
-from main import app
-
-
 def display_urls():
+    from flask import url_for
+    from main import app
     with app.test_request_context():
         print(url_for('index'))
         print(url_for('user', name='Joe'))
@@ -11,5 +8,13 @@ def display_urls():
         print(url_for('index', _external=True))
 
 
+def timezones():
+    from datetime import datetime, timezone
+    print(datetime.now())
+    print(datetime.now(tz=timezone.utc))
+    print(datetime.now(tz=timezone.utc).isoformat())
+
+
 if __name__ == '__main__':
     display_urls()
+    timezones()
