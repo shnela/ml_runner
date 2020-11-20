@@ -40,7 +40,8 @@ def index():
         flash(f"You've just set name to {form.data['name']}")
         session['name'] = form.data['name']
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'))
+    users = User.query.all()
+    return render_template('index.html', form=form, users=users)
 
 
 @app.route('/user/<name>/')

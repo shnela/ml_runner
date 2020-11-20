@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block container %}
-    <h1>Hello {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
+    <h1>Hello!</h1>
     <div class="col-md-4">
       <form method="POST">
         {{ wtf.quick_form(form) }}
       </form>
+      <hr/>
+      <h3>Users in db</h3>
+      <ul>
+      {% for user in users %}
+          <li>{{ user.username }} ({{ user.email }})</li>
+      {% endfor %}
+      </ul>
     </div>
 {% endblock container %}
