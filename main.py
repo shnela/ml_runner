@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 
@@ -9,12 +9,14 @@ Bootstrap(app)
 Moment(app)
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    print(request.args)
+    print(request.form)
     return render_template('index.html', right_now=datetime.now(tz=timezone.utc))
 
 
-@app.route('/user/<name>')
+@app.route('/user/<name>/')
 def user(name):
     return render_template('user.html', name=name)
 
