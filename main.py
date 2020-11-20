@@ -1,19 +1,28 @@
-from datetime import datetime, timezone
-
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, url_for, session
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
+import os
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 Bootstrap(app)
 Moment(app)
 
 
+class MyForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    print(request.args)
-    print(request.form)
-    return render_template('index.html', right_now=datetime.now(tz=timezone.utc))
+    form = MyForm()
+    if form.validate_on_submit():
+        session['name'] = form.data['name']
+        return redirect(url_for('index'))
+    return render_template('index.html', form=form, name=session.get('name'))
 
 
 @app.route('/user/<name>/')

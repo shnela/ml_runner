@@ -15,6 +15,13 @@ def timezones():
     print(datetime.now(tz=timezone.utc).isoformat())
 
 
+def env_variables():
+    import os
+    print(os.environ)
+    print(os.environ.get('SOME_VAR'))
+
+
 if __name__ == '__main__':
     display_urls()
     timezones()
+    env_variables()
