@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, url_for, session, flash
+from flask import Flask, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
@@ -40,6 +40,11 @@ class MyForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Field email should be unique')
+
+
+@app.shell_context_processor
+def shell_context():
+    return dict(User=User, db=db)
 
 
 @app.route('/', methods=['GET', 'POST'])
