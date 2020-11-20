@@ -21,7 +21,15 @@ def env_variables():
     print(os.environ.get('SOME_VAR'))
 
 
+def sys_path():
+    import os
+    print(__file__)
+    print(os.path.dirname(__file__))
+    print(os.path.abspath(os.path.dirname(__file__)))
+
+
 if __name__ == '__main__':
-    display_urls()
-    timezones()
-    env_variables()
+    # display_urls()
+    # timezones()
+    # env_variables()
+    sys_path()
