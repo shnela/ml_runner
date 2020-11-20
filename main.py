@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, session
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import os
 
@@ -14,6 +14,7 @@ Moment(app)
 
 class MyForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 @app.route('/', methods=['GET', 'POST'])
