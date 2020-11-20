@@ -28,7 +28,7 @@ class User(db.Model):
         return '<User %r>' % self.username
 
 
-class MyForm(FlaskForm):
+class CreateUser(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired(), Email()])
     submit = SubmitField('Submit')
@@ -47,22 +47,22 @@ def shell_context():
     return dict(User=User, db=db)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    form = MyForm()
+    users = User.query.all()
+    return render_template('index.html', users=users)
+
+
+@app.route('/admin/', methods=['GET', 'POST'])
+def admin():
+    form = CreateUser()
     if form.validate_on_submit():
         flash(f"You've just created {form.data['name']}")
         new_user = User(username=form.data['name'], email=form.data['email'])
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('index'))
-    users = User.query.all()
-    return render_template('index.html', form=form, users=users)
-
-
-@app.route('/user/<name>/')
-def user(name):
-    return render_template('user.html', name=name)
+    return render_template('admin.html', form=form)
 
 
 @app.errorhandler(404)

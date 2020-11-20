@@ -1,13 +1,7 @@
 {% extends "base.html" %}
 
 {% block container %}
-    <h1>Hello, add new user!</h1>
-    <div class="col-md-4">
-      <form method="POST">
-        {{ wtf.quick_form(form) }}
-      </form>
-      <hr/>
-      <h3>Users in db</h3>
+      <h1>Users in db</h1>
       <ul>
       {% for user in users %}
           <li>{{ user.username }} ({{ user.email }})</li>
