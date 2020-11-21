@@ -10,6 +10,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, ValidationError, PasswordField
 from wtforms.validators import DataRequired, Email, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_migrate import Migrate
+
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -27,6 +29,7 @@ Bootstrap(app)
 Moment(app)
 db = SQLAlchemy(app)
 mail = Mail(app)
+migrate = Migrate(app, db)
 
 
 class User(db.Model):
