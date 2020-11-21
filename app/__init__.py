@@ -35,6 +35,7 @@ def create_app(config=None):
     from app.auth import bp as auth_bp
     from app.ml_models import bp as ml_models_bp
     app.register_blueprint(main_bp)
+    app.register_blueprint(ml_models_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
     # generate context
