@@ -50,9 +50,30 @@ def deco(f):
 def some_func():
     print('some_func ran')
 
+
+def serialization():
+    import json
+    import pickle
+    from decimal import Decimal
+    d = {'a': 1, 'b': 0.2}
+    d_json = json.dumps(d)
+    print(d_json)
+    print(json.loads(d_json))
+
+    d['c'] = Decimal(0.11)
+    # d_json = json.dumps(d)
+    d_pickle = pickle.dumps(d)
+    print(d_pickle)
+    print(pickle.loads(d_pickle))
+    filename = 'pickled_dict'
+    pickle.dump(d, open(filename, 'wb'))
+    print(pickle.load(open(filename, 'rb')))
+
+
 if __name__ == '__main__':
     # display_urls()
     # timezones()
     # env_variables()
     # sys_path()
-    some_func()
+    # some_func()
+    serialization()
