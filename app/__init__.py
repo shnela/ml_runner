@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
 from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_moment import Moment
@@ -13,6 +14,7 @@ moment = Moment()
 db = SQLAlchemy()
 mail = Mail()
 migrate = Migrate()
+login_manager = LoginManager()
 
 
 def create_app(config=None):
@@ -26,11 +28,12 @@ def create_app(config=None):
     db.init_app(app)
     mail.init_app(app)
     migrate.init_app(app, db=db)
+    login_manager.init_app(app)
 
     from app.main import bp as main_bp
     from app.auth import bp as auth_bp
     app.register_blueprint(main_bp)
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(auth_bp, url_prefix='/auth')
 
     # generate context
     from app.auth.models import User

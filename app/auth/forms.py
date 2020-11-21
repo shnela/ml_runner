@@ -19,3 +19,9 @@ class CreateUser(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Field email should be unique')
+
+
+class LoginForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+    password = PasswordField('password', validators=[DataRequired()])
+    submit = SubmitField('Submit')
