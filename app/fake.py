@@ -1,4 +1,5 @@
 from faker import Faker
+from werkzeug.security import generate_password_hash
 
 from . import db
 from .auth.models import User
@@ -12,7 +13,7 @@ def generate_users(count=10):
         u = User(
             username=fake.first_name(),
             email=fake.email(),
-            password_hash='a',
+            password_hash=generate_password_hash('a'),
         )
         db.session.add(u)
     db.session.commit()
