@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
 {% block container %}
-      <h1>ML Models</h1>
-      <ul>
-      {% for model in models %}
-          <li>{{ model.model_name }}</li>
-      {% endfor %}
-      </ul>
-    </div>
+  <h1>ML Models</h1>
+  <ul>
+    {% for model in models %}
+    <li>{{ model.model_name }}</li>
+    {% endfor %}
+  </ul>
+  <a class="btn btn-lg btn-success" href="{{ url_for('ml_models.model_create') }}">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add new model
+  </a>
 {% endblock container %}
