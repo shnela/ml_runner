@@ -15,6 +15,7 @@ db = SQLAlchemy()
 mail = Mail()
 migrate = Migrate()
 login_manager = LoginManager()
+login_manager.login_view = "auth.login"
 
 
 def create_app(config=None):
