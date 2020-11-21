@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename, redirect
 from . import bp
 from .forms import CreateMLModelForm
 from .models import MLModel
+from .. import db
 
 
 @bp.route('/models/')
@@ -27,6 +28,13 @@ def model_create():
         f.save(os.path.join(
             current_app.instance_path, 'pickled_ml_models', filename
         ))
+        new_model = MLModel(
+            model_name=form.data['model_name'],
+            description=form.data.get('description'),
+            pickle_path=filename,
+        )
+        db.session.add(new_model)
+        db.session.commit()
         return redirect(url_for('.models_list'))
 
     return render_template('ml_models/model_create.html', form=form)
