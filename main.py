@@ -7,8 +7,9 @@ from flask_mail import Mail, Message
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, ValidationError
-from wtforms.validators import DataRequired, Email
+from wtforms import StringField, SubmitField, ValidationError, PasswordField
+from wtforms.validators import DataRequired, Email, EqualTo
+from werkzeug.security import generate_password_hash, check_password_hash
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
@@ -32,6 +33,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(120), nullable=True)
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -40,6 +42,8 @@ class User(db.Model):
 class CreateUser(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     email = StringField('email', validators=[DataRequired(), Email()])
+    password1 = PasswordField('password', validators=[DataRequired(), EqualTo('password2', 'Passwords must match')])
+    password2 = PasswordField('repeat password', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
     def validate_name(self, field):
@@ -80,7 +84,11 @@ def admin():
     form = CreateUser()
     if form.validate_on_submit():
         flash(f"You've just created {form.data['name']}")
-        new_user = User(username=form.data['name'], email=form.data['email'])
+        new_user = User(
+            username=form.data['name'],
+            email=form.data['email'],
+            password_hash=generate_password_hash(form.data['password1']),
+        )
         db.session.add(new_user)
         db.session.commit()
         send_email(to=new_user.email, subject='Account created', template_name='email/new_user',
