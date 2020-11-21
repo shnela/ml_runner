@@ -15,9 +15,11 @@ mail = Mail()
 migrate = Migrate()
 
 
-def create_app():
+def create_app(config=None):
     app = Flask(__name__)
     app.config.from_object(Config)
+    if config is not None:
+        app.config.update(config)
 
     bootstrap.init_app(app)
     moment.init_app(app)
