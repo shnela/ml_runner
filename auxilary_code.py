@@ -1,3 +1,6 @@
+from functools import wraps
+
+
 def display_urls():
     from flask import url_for
     from main import app
@@ -31,6 +34,7 @@ def sys_path():
 def deco(f):
     print('start defining deco')
 
+    @wraps(f)
     def inner_func(*args, **kwargs):
         print('before call')
         result = f(*args, **kwargs)

@@ -3,5 +3,9 @@ from flask import abort
 
 
 def admin_required(f):
-    if not current_user.is_admin:
-        abort(403)
+    def inner_func(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)
+        result = f(*args, **kwargs)
+        return result
+    return inner_func
