@@ -1,24 +1,24 @@
 import os
 import tempfile
-
-import pytest
+import unittest
 
 from app import create_app, db
 
 
-@pytest.fixture
-def client():
-    db_fd, db_path = tempfile.mkstemp()
-    config = {
-        'SQLALCHEMY_DATABASE_URI': f"sqlite:///{db_path}.db",
-        'WTF_CSRF_ENABLED': False,
-        'TESTING': True,
-    }
-    app_instance = create_app(config=config)
+class FlaskBaseTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.db_fd, db_path = tempfile.mkstemp()
+        config = {
+            'SQLALCHEMY_DATABASE_URI': f"sqlite:///{db_path}.db",
+            'WTF_CSRF_ENABLED': False,
+            'TESTING': True
+        }
+        app_instance = create_app(config=config)
+        self.app_context = app_instance.app_context()
+        self.app_context.push()
+        db.create_all()
+        self.client = app_instance.test_client()
 
-    with app_instance.test_client() as client:
-        with app_instance.app_context():
-            db.create_all()
-            yield client
-
-    os.close(db_fd)
+    def tearDown(self) -> None:
+        self.app_context.pop()
+        os.close(self.db_fd)
