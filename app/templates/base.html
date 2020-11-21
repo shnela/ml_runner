@@ -33,12 +33,14 @@
              aria-expanded="false">
             {% if current_user.is_authenticated %}{{ current_user.username }}{% endif %}
             <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Zobacz profil</a></li>
-            <li><a href="#">Zmień adres email</a></li>
-            <li><a href="#">Zmień hasło</a></li>
-            <li><a href="#">Wyloguj</a></li>
-          </ul>
+          {% if current_user.is_authenticated %}
+            <ul class="dropdown-menu">
+              <li><a href="#">Zobacz profil</a></li>
+              <li><a href="#">Zmień adres email</a></li>
+              <li><a href="#">Zmień hasło</a></li>
+              <li><a href="{{ url_for('auth.logout') }}">Wyloguj</a></li>
+            </ul>
+          {% endif %}
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->

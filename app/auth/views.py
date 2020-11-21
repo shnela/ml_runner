@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-from flask_login import login_user, login_required
+from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash
 
 from . import bp
@@ -46,3 +46,9 @@ def login():
         return redirect(next or url_for('main.index'))
     return render_template('auth/login.html', form=form)
 
+
+@bp.route('/logout/')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login'))
