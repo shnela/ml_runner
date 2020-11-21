@@ -1,4 +1,5 @@
 import os
+from threading import Thread
 
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap
@@ -50,11 +51,17 @@ class CreateUser(FlaskForm):
             raise ValidationError('Field email should be unique')
 
 
+def send_email_async(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+
 def send_email(to, subject, template_name, **kwargs):
     msg = Message(subject, sender=app.config.get('MAIL_DEFAULT_SENDER'), recipients=[to])
     msg.body = render_template(f'{template_name}.txt', **kwargs)
     msg.html = render_template(f'{template_name}.html', **kwargs)
-    mail.send(msg)
+    thread = Thread(target=send_email_async, args=(app, msg))
+    thread.start()
 
 
 @app.shell_context_processor
