@@ -28,8 +28,27 @@ def sys_path():
     print(os.path.abspath(os.path.dirname(__file__)))
 
 
+def deco(f):
+    print('start defining deco')
+
+    def inner_func(*args, **kwargs):
+        print('before call')
+        result = f(*args, **kwargs)
+        print('after call')
+        return result
+
+    print('stop defining deco')
+
+    return inner_func
+
+
+@deco
+def some_func():
+    print('some_func ran')
+
 if __name__ == '__main__':
     # display_urls()
     # timezones()
     # env_variables()
-    sys_path()
+    # sys_path()
+    some_func()

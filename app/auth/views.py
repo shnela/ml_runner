@@ -1,16 +1,18 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, abort
 from flask_login import login_user, login_required, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import bp
 from .forms import CreateUser, LoginForm
 from .models import User
+from .utils import admin_required
 from .. import db
 from ..utils import send_email
 
 
 @bp.route('/admin/', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def admin():
     form = CreateUser()
     if form.validate_on_submit():
