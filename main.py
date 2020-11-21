@@ -76,6 +76,8 @@ def admin():
         new_user = User(username=form.data['name'], email=form.data['email'])
         db.session.add(new_user)
         db.session.commit()
+        send_email(to=new_user.email, subject='Account created', template_name='email/new_user',
+                   username=new_user.username)
         return redirect(url_for('index'))
     return render_template('admin.html', form=form)
 
