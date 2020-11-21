@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, login_required, logout_user
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import bp
 from .forms import CreateUser, LoginForm
@@ -33,14 +33,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.data['name']).first()
-        login_user(user)
+        if user is not None and check_password_hash(user.password_hash, form.data['password']):
+            login_user(user)
 
-        flash('Logged in successfully.')
+            flash('Logged in successfully.')
 
-        next = request.args.get('next')
-        if next is None or not next.startswith('/'):
-            next = url_for('main.index')
-        return redirect(next)
+            next = request.args.get('next')
+            if next is None or not next.startswith('/'):
+                next = url_for('main.index')
+            return redirect(next)
+        flash('Wrong user or password.')
     return render_template('auth/login.html', form=form)
 
 
