@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from flask import render_template, url_for, current_app
 from flask_login import login_required
@@ -22,7 +23,7 @@ def model_create():
     form = CreateMLModelForm()
     if form.validate_on_submit():
         f = form.pickled_model.data
-        filename = secure_filename(f.filename)
+        filename = secure_filename(f'{datetime.now().isoformat()}_{f.filename}')
         f.save(os.path.join(
             current_app.instance_path, 'pickled_ml_models', filename
         ))
