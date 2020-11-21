@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -18,8 +18,8 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 migrate = Migrate(app, db)
 
-from app import views
-from app import errors
+from app.main import bp as main_bp
+app.register_blueprint(main_bp)
 
 # @app.shell_context_processor
 # def shell_context():

@@ -2,10 +2,10 @@ def display_urls():
     from flask import url_for
     from main import app
     with app.test_request_context():
-        print(url_for('index'))
-        print(url_for('user', name='Joe'))
-        print(url_for('user', name='Joe', additional_arg='mess', additional_arg2='mess2'))
-        print(url_for('index', _external=True))
+        print(url_for('main.index'))
+        print(url_for('main.user', name='Joe'))
+        print(url_for('main.user', name='Joe', additional_arg='mess', additional_arg2='mess2'))
+        print(url_for('main.index', _external=True))
 
 
 def timezones():
