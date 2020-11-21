@@ -29,6 +29,10 @@ def sys_path():
     print(__file__)
     print(os.path.dirname(__file__))
     print(os.path.abspath(os.path.dirname(__file__)))
+    splitted = os.path.split(__file__)
+    print(splitted)
+    print(os.path.join(*splitted[:-1]), splitted[-1])
+
 
 
 def deco(f):
@@ -74,6 +78,6 @@ if __name__ == '__main__':
     # display_urls()
     # timezones()
     # env_variables()
-    # sys_path()
+    sys_path()
     # some_func()
-    serialization()
+    # serialization()
