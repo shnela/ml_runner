@@ -36,10 +36,11 @@ def generate_users(count=10):
 def generate_ml_models(models_count=1, runs_count=0):
     for i in range(models_count):
         model_name = f'{fake.unique.name()} model'
+        pickled_filename = save_test_file('trained_knn_model.sav', 'ML_MODELS_DIR')
         u = MLModel(
             model_name=model_name,
             description=fake.text(),
-            pickle_filename=f"/some/path/{model_name.replace(' ', '_')}",
+            pickle_filename=pickled_filename,
         )
         db.session.add(u)
         db.session.commit()
@@ -48,10 +49,10 @@ def generate_ml_models(models_count=1, runs_count=0):
 
 def generate_ml_model_runs(ml_model_id, runs_count=10):
     for i in range(runs_count):
-        model_name = f'{fake.unique.name()} model'
+        csv_filename = save_test_file('iris_test_data.csv', 'CSV_DIR')
         u = MLModelRun(
             description=fake.text(),
-            csv_filename=f"/some/path/{model_name.replace(' ', '_')}",
+            csv_filename=csv_filename,
             ml_model_id=ml_model_id,
         )
         db.session.add(u)
