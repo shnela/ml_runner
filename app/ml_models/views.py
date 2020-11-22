@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename, redirect
 
 from . import bp
 from .forms import CreateMLModelForm, UploadCSVForm
-from .models import MLModel
+from .models import MLModel, MLModelRun
 from .. import db
 
 
@@ -45,7 +45,8 @@ def model_create():
 @login_required
 def model_details(model_id):
     ml_model = MLModel.query.get_or_404(model_id)
-    return render_template('ml_models/model_details.html', model=ml_model)
+    model_runs = MLModelRun.query.filter_by(ml_model_id=model_id).order_by(MLModelRun.created_at.desc())
+    return render_template('ml_models/model_details.html', model=ml_model, model_runs=model_runs)
 
 
 @bp.route('/models/<int:model_id>/download/')
