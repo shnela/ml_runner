@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import render_template, url_for, current_app, send_from_directory, session
+from flask import render_template, url_for, current_app, send_from_directory, session, request
 from flask_login import login_required
 from werkzeug.utils import secure_filename, redirect
 
@@ -14,8 +14,9 @@ from .. import db
 @bp.route('/models/')
 @login_required
 def models_list():
-    models = MLModel.query.all()
-    return render_template('ml_models/models_list.html', models=models)
+    page = int(request.values.get('page', 1))
+    models_pagination = MLModel.query.paginate(page=page, per_page=current_app.config['PER_PAGE'])
+    return render_template('ml_models/models_list.html', models_pagination=models_pagination)
 
 
 @bp.route('/models/create/', methods=['GET', 'POST'])

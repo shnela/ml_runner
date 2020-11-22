@@ -18,3 +18,4 @@ class Config:
 
     ML_MODELS_DIR = os.path.join(base_dir, 'instance', 'pickled_ml_models')
     CSV_DIR = os.path.join(base_dir, 'instance', 'csv_files')
+    PER_PAGE = 10
