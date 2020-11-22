@@ -29,7 +29,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for run in model_runs %}
+      {% for run in model_runs_pagnation.items %}
         <tr>
           <td>{{ run.created_at }}</td>
           <td>{{ run.csv_filename }}</td>
@@ -37,4 +37,21 @@
       {% endfor %}
     </tbody>
   </table>
+
+  <div>
+    Displaying {{ model_runs_pagnation.per_page }} of {{ model_runs_pagnation.total }}
+  </div>
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      {% for page in model_runs_pagnation.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2) %}
+        {% if not page %}
+          <li><a>...</a></li>
+        {% elif page == model_runs_pagnation.page %}
+          <li><a><strong>{{ page }}</strong></a></li>
+        {% else %}
+          <li><a href="{{ url_for('ml_models.model_details', model_id=model.id, page=page) }}">{{ page }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
 {% endblock container %}

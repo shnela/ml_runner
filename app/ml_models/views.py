@@ -44,9 +44,16 @@ def model_create():
 @bp.route('/models/<int:model_id>/')
 @login_required
 def model_details(model_id):
+    page = int(request.values.get('page', 1))
     ml_model = MLModel.query.get_or_404(model_id)
-    model_runs = MLModelRun.query.filter_by(ml_model_id=model_id).order_by(MLModelRun.created_at.desc())
-    return render_template('ml_models/model_details.html', model=ml_model, model_runs=model_runs)
+    model_runs_pagnation = MLModelRun.query.filter_by(
+        ml_model_id=model_id
+    ).order_by(
+        MLModelRun.created_at.desc()
+    ).paginate(
+        page=page, per_page=current_app.config['PER_PAGE']
+    )
+    return render_template('ml_models/model_details.html', model=ml_model, model_runs_pagnation=model_runs_pagnation)
 
 
 @bp.route('/models/<int:model_id>/download/')
