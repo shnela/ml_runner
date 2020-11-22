@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from flask import render_template, url_for, current_app
+from flask import render_template, url_for, current_app, send_from_directory
 from flask_login import login_required
 from werkzeug.utils import secure_filename, redirect
 
@@ -26,7 +26,7 @@ def model_create():
         f = form.pickled_model.data
         filename = secure_filename(f'{datetime.now().isoformat()}_{f.filename}')
         f.save(os.path.join(
-            current_app.instance_path, 'pickled_ml_models', filename
+            current_app.config['ML_MODELS_DIR'], filename
         ))
         new_model = MLModel(
             model_name=form.data['model_name'],
@@ -38,3 +38,10 @@ def model_create():
         return redirect(url_for('.models_list'))
 
     return render_template('ml_models/model_create.html', form=form)
+
+
+@bp.route('/models/<int:model_id>/download/')
+@login_required
+def model_download(model_id):
+    ml_model = MLModel.query.get(model_id)
+    return send_from_directory(current_app.config['ML_MODELS_DIR'], ml_model.pickle_path)
