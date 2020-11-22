@@ -31,7 +31,7 @@ def model_create():
         new_model = MLModel(
             model_name=form.data['model_name'],
             description=form.data.get('description'),
-            pickle_path=filename,
+            pickle_filename=filename,
         )
         db.session.add(new_model)
         db.session.commit()
@@ -51,4 +51,4 @@ def model_details(model_id):
 @login_required
 def model_download(model_id):
     ml_model = MLModel.query.get(model_id)
-    return send_from_directory(current_app.config['ML_MODELS_DIR'], ml_model.pickle_path)
+    return send_from_directory(current_app.config['ML_MODELS_DIR'], ml_model.pickle_filename)

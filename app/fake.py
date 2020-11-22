@@ -25,7 +25,7 @@ def generate_ml_models(count=1):
         u = MLModel(
             model_name=model_name,
             description=fake.text(),
-            pickle_path=f"/some/path/{model_name.replace(' ', '_')}",
+            pickle_filename=f"/some/path/{model_name.replace(' ', '_')}",
         )
         db.session.add(u)
     db.session.commit()

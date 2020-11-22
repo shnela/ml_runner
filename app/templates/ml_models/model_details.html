@@ -14,7 +14,7 @@
     <li class="list-group-item"><strong>Description:</strong> {{ model.description }}</li>
     <li class="list-group-item">
       <a href="{{ url_for('ml_models.model_download', model_id=model.id) }}" target="_blank">
-        download {{ model.pickle_path }}
+        download {{ model.pickle_filename }}
       </a>
     </li>
   </ul>
