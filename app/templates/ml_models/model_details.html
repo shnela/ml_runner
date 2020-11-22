@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block container %}
+  <h1>ML Models</h1>
+  <ul>
+    <li><strong>id:</strong> {{ model.id }}</li>
+    <li><strong>model_name:</strong> {{ model.model_name }}</li>
+    <li><strong>description:</strong> {{ model.description }}</li>
+    <li>
+      <a href="{{ url_for('ml_models.model_download', model_id=model.id) }}" target="_blank">
+        download {{ model.pickle_path }}
+      </a>
+    </li>
+  </ul>
+{% endblock container %}

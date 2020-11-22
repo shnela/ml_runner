@@ -40,6 +40,13 @@ def model_create():
     return render_template('ml_models/model_create.html', form=form)
 
 
+@bp.route('/models/<int:model_id>/')
+@login_required
+def model_details(model_id):
+    ml_model = MLModel.query.get_or_404(model_id)
+    return render_template('ml_models/model_details.html', model=ml_model)
+
+
 @bp.route('/models/<int:model_id>/download/')
 @login_required
 def model_download(model_id):

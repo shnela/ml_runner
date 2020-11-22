@@ -6,6 +6,9 @@
     {% for model in models %}
       <li>
         {{ model.model_name }}
+        <a href="{{ url_for('ml_models.model_details', model_id=model.id) }}">
+          [details]
+        </a>
         <a href="{{ url_for('ml_models.model_download', model_id=model.id) }}"  target="_blank">
           [download]
         </a>
