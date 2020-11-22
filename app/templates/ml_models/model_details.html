@@ -25,6 +25,7 @@
     <thead>
       <tr>
         <th>Date of creation</th>
+        <th>Description</th>
         <th>Input file</th>
       </tr>
     </thead>
@@ -32,6 +33,7 @@
       {% for run in model_runs_pagnation.items %}
         <tr>
           <td>{{ run.created_at }}</td>
+          <td>{{ run.description|truncate(32) }}</td>
           <td>{{ run.csv_filename }}</td>
         </tr>
       {% endfor %}
