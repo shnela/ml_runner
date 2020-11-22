@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('ml_models.models_list') }}">ML Models</a></li>
+    <li class="active">ML Model details</li>
+  </ol>
+{% endblock %}
 {% block container %}
-  <h1>ML Models</h1>
-  <ul>
-    <li><strong>id:</strong> {{ model.id }}</li>
-    <li><strong>model_name:</strong> {{ model.model_name }}</li>
-    <li><strong>description:</strong> {{ model.description }}</li>
-    <li>
+  <h1>ML Model details</h1>
+  <ul class="list-group">
+    <li class="list-group-item"><strong>id:</strong> {{ model.id }}</li>
+    <li class="list-group-item"><strong>Model name:</strong> {{ model.model_name }}</li>
+    <li class="list-group-item"><strong>Description:</strong> {{ model.description }}</li>
+    <li class="list-group-item">
       <a href="{{ url_for('ml_models.model_download', model_id=model.id) }}" target="_blank">
         download {{ model.pickle_path }}
       </a>
