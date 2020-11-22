@@ -21,7 +21,20 @@
 
   <hr/>
   <h2>Related runs</h2>
-  {% for run in model.runs %}
-    <li>({{ run.created_at }}) {{ run.csv_filename }}</li>
-  {% endfor %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date of creation</th>
+        <th>Input file</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for run in model.runs %}
+        <tr>
+          <td>{{ run.created_at }}</td>
+          <td>{{ run.csv_filename }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock container %}
