@@ -44,10 +44,7 @@
             <span class="caret"></span></a>
           {% if current_user.is_authenticated %}
             <ul class="dropdown-menu">
-              <li><a href="#">Zobacz profil</a></li>
-              <li><a href="#">Zmień adres email</a></li>
-              <li><a href="#">Zmień hasło</a></li>
-              <li><a href="{{ url_for('auth.logout') }}">Wyloguj</a></li>
+              <li><a href="{{ url_for('auth.logout') }}">Log out</a></li>
             </ul>
           {% endif %}
         </li>
