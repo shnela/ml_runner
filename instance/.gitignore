@@ -4,4 +4,6 @@
 # But not these files...
 !.gitignore
 !csv_files
+!fake_data
+!fake_data/*
 !pickled_ml_models
