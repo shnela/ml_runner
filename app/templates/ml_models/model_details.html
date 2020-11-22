@@ -18,4 +18,10 @@
       </a>
     </li>
   </ul>
+
+  <hr/>
+  <h2>Related runs</h2>
+  {% for run in model.runs %}
+    <li>({{ run.created_at }}) {{ run.csv_filename }}</li>
+  {% endfor %}
 {% endblock container %}
