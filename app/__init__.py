@@ -45,10 +45,12 @@ def create_app(config=None):
 
     # generate context
     from app.auth.models import User
+    from app.ml_models.models import MLModel, MLModelRun
     from app.utils import send_email
 
     @app.shell_context_processor
     def shell_context():
-        return dict(User=User, db=db, mail=mail, send_email=send_email)
+        return dict(User=User, db=db, mail=mail, send_email=send_email,
+                    MLModel=MLModel, MLModelRun=MLModelRun)
 
     return app

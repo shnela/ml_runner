@@ -21,4 +21,4 @@ class MLModelRun(db.Model):
     ml_model_id = db.Column(db.Integer, db.ForeignKey('ml_model.id'))
 
     def __repr__(self):
-        return f'<MLModelRun {self.model_name} ({self.created_at})>'
+        return f'<MLModelRun of {self.ml_model.model_name} ({self.created_at})>'
