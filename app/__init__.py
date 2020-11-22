@@ -5,6 +5,7 @@ from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from flask_debugtoolbar import DebugToolbarExtension
 
 from app.config import Config
 
@@ -16,6 +17,7 @@ mail = Mail()
 migrate = Migrate()
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
+toolbar = DebugToolbarExtension()
 
 
 def create_app(config=None):
@@ -30,6 +32,7 @@ def create_app(config=None):
     mail.init_app(app)
     migrate.init_app(app, db=db)
     login_manager.init_app(app)
+    toolbar.init_app(app)
 
     from app.main import bp as main_bp
     from app.auth import bp as auth_bp
