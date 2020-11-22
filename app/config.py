@@ -17,3 +17,4 @@ class Config:
     MAIL_DEFAULT_SENDER = f"ML Runner <{MAIL_USERNAME}>"
 
     ML_MODELS_DIR = os.path.join(base_dir, 'instance', 'pickled_ml_models')
+    CSV_DIR = os.path.join(base_dir, 'instance', 'csv_files')

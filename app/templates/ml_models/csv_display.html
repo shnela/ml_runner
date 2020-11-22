@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block container %}
+  <h1>Add new model</h1>
+  <div class="col-md-4">
+    <form method="POST" enctype="multipart/form-data">
+      {{ wtf.quick_form(form) }}
+    </form>
+    <hr/>
+    {% if recent_csv_file %}
+      <h2>Recently uploaded file:</h2>
+      <div>{{ recent_csv_file }}</div>
+    {% endif %}
+  </div>
+{% endblock container %}

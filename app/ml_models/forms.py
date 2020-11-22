@@ -8,3 +8,8 @@ class CreateMLModelForm(FlaskForm):
     description = TextAreaField('description')
     pickled_model = FileField(validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+class UploadCSVForm(FlaskForm):
+    csv_file = FileField(validators=[DataRequired()])
+    submit = SubmitField('Submit')

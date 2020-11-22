@@ -26,6 +26,7 @@
       <ul class="nav navbar-nav">
         <li class=""><a href="{{ url_for('main.index') }}">Strona główna</a></li>
         <li class=""><a href="{{ url_for('ml_models.models_list') }}">ML Models</a></li>
+        <li class=""><a href="{{ url_for('ml_models.csv_display') }}">CSV test</a></li>
         {% if current_user.is_admin  %}
           <li class=""><a href="{{ url_for('auth.admin') }}">Admin</a></li>
         {% endif %}
