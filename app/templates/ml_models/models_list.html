@@ -8,21 +8,20 @@
 
 {% block container %}
     <h1>ML Models</h1>
+    <div>
+      Displaying {{ models_pagination.per_page }} of {{ models_pagination.total }}
+    </div>
     <nav aria-label="Page navigation">
       <ul class="pagination">
-        <li>
-          <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
         {% for page in models_pagination.iter_pages(left_edge=2, left_current=2, right_current=2, right_edge=2) %}
-          <li><a href="#">{{ page }}</a></li>
+          {% if not page %}
+            <li><a>...</a></li>
+          {% elif page == models_pagination.page %}
+            <li><a><strong>{{ page }}</strong></a></li>
+          {% else %}
+            <li><a href="{{ url_for('ml_models.models_list', page=page) }}">{{ page }}</a></li>
+          {% endif %}
         {% endfor %}
-        <li>
-          <a href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
       </ul>
     </nav>
     <ul>
