@@ -38,6 +38,11 @@ def create_app(config=None):
     app.register_blueprint(ml_models_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
+    # add error handlers
+    # error handler can't be part of blueprint (https://github.com/pallets/flask/issues/1935)
+    with app.app_context():
+        from app import errors
+
     # generate context
     from app.auth.models import User
     from app.utils import send_email
