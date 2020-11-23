@@ -9,8 +9,8 @@ Bootstrap(app)
 def index():
     # show request here
     user_info = {
-        'name': 'Mike',
-        'age': 42,
+        'name': request.args.get('name', 'Mike'),
+        'age': int(request.args.get('age', 42)),
     }
     return render_template('index.html', user_info=user_info)
 
