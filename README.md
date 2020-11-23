@@ -1,29 +1,24 @@
 # README
 
-## New requirements
-Flask-WTF  # https://flask-wtf.readthedocs.io/en/stable/
+## Flask-Bootstrap - ingetration with Flask_WTF
+https://pythonhosted.org/Flask-Bootstrap/forms.html
 
 ### Flask-WTF is baed on WTF-Forms
 https://wtforms.readthedocs.io/en/2.3.x/
 
+### Bootstrap container
+https://getbootstrap.com/docs/3.4/css/#overview-container
+Show form without container (block content)
 
-Different field types: https://wtforms.readthedocs.io/en/2.3.x/fields/#basic-fields
-Different validators: https://wtforms.readthedocs.io/en/2.3.x/validators/#built-in-validators
+### Flask Message Flashing
+https://flask.palletsprojects.com/en/1.1.x/quickstart/#message-flashing
+Flashed in login -> renders in index.
 
-## Prerequisite 
-SECRET_KEY required (https://pinetools.com/random-string-generator)
-Add it in pyCharm config run.
-Show dict `del` in python.
-Show session in html
 
 ## Assignments
-* Display name of logged in user in top right corner, or 'Unknown'
-* Add new field in form - `age` and save value in `session`.
-This field should be positive integer, so IntegerField and NumberRange should be used.
-If `age` isn't present in session - display 0.
-Test form with missing data, negative values and strings instead of int.
-After sending ('user1', 43), we should be redirected to `index` which will display "Hello fasada (32)!"
-* Implement logout view which will remove `name` and `age` keys from session
-Then link new view to "Log out" button in right top corner.
-This should be simple GET function (no form required)
-(use del)
+* Display flash messages as blue [Dismissible alerts](https://getbootstrap.com/docs/3.4/components/#alerts-dismissible)
+(class="alert alert-info")
+* Add "You've logged out" notification after user loggs out
+* Make logout alert yellow with (class="alert alert-warning")
+Użyj parametru `category` w funkcji [flash](https://flask.palletsprojects.com/en/1.1.x/api/#flask.flash)
+oraz `with_categories` w funkcji [get_flashed_messages](https://flask.palletsprojects.com/en/1.1.x/api/#flask.get_flashed_messages)
