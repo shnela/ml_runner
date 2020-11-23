@@ -9,8 +9,8 @@ from flask import (
 )
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms import StringField, IntegerField, SubmitField
+from wtforms.validators import DataRequired, NumberRange, ValidationError
 import os
 
 app = Flask(__name__)
@@ -20,6 +20,7 @@ Bootstrap(app)
 
 class LoginForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
+    age = IntegerField('age', validators=[DataRequired(), NumberRange(min=0)])
     submit = SubmitField('Submit')
 
     def validate_name(self, field):
@@ -31,7 +32,7 @@ class LoginForm(FlaskForm):
 def index():
     user_info = {
         'name': session.get('name', 'Unknown'),
-        'age': int(request.args.get('age', 42)),
+        'age': session.get('age', 0),
     }
     return render_template('index.html', user_info=user_info)
 
@@ -42,8 +43,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session['name'] = form.name.data
+        session['age'] = form.age.data
         return redirect(url_for('index'))
     return render_template('auth/login.html', form=form)
+
+
+@app.route('/logout/', methods=['GET', 'POST'])
+def logout():
+    del session['name']
+    del session['age']
+    return redirect(url_for('index'))
 
 
 @app.route('/user/<name>/<amount>/')
