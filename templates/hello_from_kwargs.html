@@ -1,12 +1,12 @@
-{% if name == 'Admin' %}
+{% if name|upper == 'ADMIN' %}
   <h1>Hello {{ name }} ({{ amount }})!</h1>
 {% else %}
   <ul>
   {% for _ in range(amount) %}
     {% if loop.index % 2 == 0 %}
-      <li><strong>{{ name }}</strong></li>
+      <li><strong>{{ name|truncate(10) }}</strong></li>
     {% else %}
-      <li>{{ name }}</li>
+      <li>{{ name|truncate(10) }}</li>
     {% endif %}
   {% endfor %}
   </ul>
