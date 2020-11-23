@@ -42,7 +42,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-
 @app.route('/')
 def index():
     user_info = {
