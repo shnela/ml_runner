@@ -56,6 +56,7 @@ def logout():
         del session['name']
     if 'age' in session:
         del session['age']
+    flash("You've logged out", category='warning')
     return redirect(url_for('index'))
 
 
