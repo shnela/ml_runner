@@ -12,9 +12,10 @@ def index():
     return render_template('index.html', user_info=user_info)
 
 
-@app.route('/user/<name>/')
-def hello_from_kwargs(name):
-    return f'<h1>Hello string, {name}!</h1>'
+@app.route('/user/<name>/<amount>/')
+def hello_from_kwargs(name, amount):
+    amount = int(amount)
+    return render_template('hello_from_kwargs.html', name=name, amount=amount)
 
 
 if __name__ == '__main__':

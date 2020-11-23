@@ -1,0 +1,31 @@
+<h1>Hello {{ name }} ({{ amount }})!</h1>
+<hr/>
+
+<ul>
+{% for _ in range(amount) %}
+    <li>{{ name }}</li>
+{% endfor %}
+</ul>
+<hr/>
+
+{% if name == 'Admin' %}
+  <h1>Hello {{ name }} ({{ amount }})!</h1>
+{% else %}
+  <ul>
+  {% for _ in range(amount) %}
+      <li>{{ name }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+<hr/>
+
+<ul>
+{% for _ in range(amount) %}
+  {% if loop.index % 2 == 0 %}
+    <li><strong>{{ name }}</strong></li>
+  {% else %}
+    <li>{{ name }}</li>
+  {% endif %}
+{% endfor %}
+</ul>
+<hr/>
