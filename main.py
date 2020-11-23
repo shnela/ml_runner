@@ -1,3 +1,5 @@
+import os
+
 from flask import (
     Flask,
     abort,
@@ -9,14 +11,29 @@ from flask import (
     session
 )
 from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, ValidationError
-import os
 
+
+current_dir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(current_dir, 'test.db')}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 Bootstrap(app)
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
 class LoginForm(FlaskForm):
@@ -24,9 +41,6 @@ class LoginForm(FlaskForm):
     age = IntegerField('age', validators=[DataRequired(), NumberRange(min=0)])
     submit = SubmitField('Submit')
 
-    def validate_name(self, field):
-        if field.data and field.data.lower() == 'admin':
-            raise ValidationError("You can't log in as admin")
 
 
 @app.route('/')
