@@ -13,6 +13,8 @@ Different validators: https://wtforms.readthedocs.io/en/2.3.x/validators/#built-
 ## Prerequisite 
 SECRET_KEY required (https://pinetools.com/random-string-generator)
 Add it in pyCharm config run.
+Show dict `del` in python.
+Show session in html
 
 ## Assignments
 * Display name of logged in user in top right corner, or 'Unknown'
