@@ -1,13 +1,17 @@
-{% if name|upper == 'ADMIN' %}
-  <h1>Hello {{ name }} ({{ amount }})!</h1>
-{% else %}
-  <ul>
-  {% for _ in range(amount) %}
-    {% if loop.index % 2 == 0 %}
-      <li><strong>{{ name|truncate(10) }}</strong></li>
-    {% else %}
-      <li>{{ name|truncate(10) }}</li>
-    {% endif %}
-  {% endfor %}
-  </ul>
-{% endif %}
+{% extends "base.html" %}
+
+{% block content %}
+  {% if name|upper == 'ADMIN' %}
+    <h1>Hello {{ name }} ({{ amount }})!</h1>
+  {% else %}
+    <ul class="list-group">
+    {% for _ in range(amount) %}
+      {% if loop.index % 2 == 0 %}
+        <li class="list-group-item"><strong>{{ name|truncate(10) }}</strong></li>
+      {% else %}
+        <li class="list-group-item">{{ name|truncate(10) }}</li>
+      {% endif %}
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}
