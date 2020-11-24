@@ -1,3 +1,4 @@
+import os
 from flask import (
     Flask,
     render_template,
@@ -8,9 +9,19 @@ from flask import (
 )
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField
-from wtforms.validators import DataRequired, NumberRange, ValidationError
-import os
+from wtforms import (
+    StringField,
+    IntegerField,
+    SubmitField,
+    PasswordField
+)
+from wtforms.validators import (
+    DataRequired,
+    Email,
+    EqualTo,
+    NumberRange,
+    ValidationError,
+)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -20,6 +31,9 @@ Bootstrap(app)
 class LoginForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     age = IntegerField('age', validators=[DataRequired(), NumberRange(min=0)])
+    email = StringField('email', validators=[DataRequired(), Email()])
+    password = PasswordField('password', validators=[DataRequired()])
+    password2 = PasswordField('password2', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Submit')
 
     def validate_name(self, field):
