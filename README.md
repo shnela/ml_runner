@@ -1,29 +1,26 @@
-# README
-
-## New requirements
-Flask-WTF  # https://flask-wtf.readthedocs.io/en/stable/
-
-### Flask-WTF is baed on WTF-Forms
-https://wtforms.readthedocs.io/en/2.3.x/
+# Integration Flask-WTF with Flask-Bootstrap
 
 
-Different field types: https://wtforms.readthedocs.io/en/2.3.x/fields/#basic-fields
-Different validators: https://wtforms.readthedocs.io/en/2.3.x/validators/#built-in-validators
+We're using [`Flask-WTF`](https://flask-wtf.readthedocs.io/en/stable/quickstart.html#creating-forms)
+for generating `LoginForm` in `main.py`.  
+We're struggling with displaying it in `login.html`.
 
-## Prerequisite 
-SECRET_KEY required (https://pinetools.com/random-string-generator)
-Add it in pyCharm config run.
-Show dict `del` in python.
-Show session in html
+Let's integrate `Flask-WTF` with [`Flask-Bootstrap`](https://pythonhosted.org/Flask-Bootstrap/basic-usage.html)
 
-## Assignments
-* Display name of logged in user in top right corner, or 'Unknown'
-* Add new field in form - `age` and save value in `session`.
-This field should be positive integer, so IntegerField and NumberRange should be used.
-If `age` isn't present in session - display 0.
-Test form with missing data, negative values and strings instead of int.
-After sending ('user1', 43), we should be redirected to `index` which will display "Hello fasada (32)!"
-* Implement logout view which will remove `name` and `age` keys from session
-Then link new view to "Log out" button in right top corner.
-This should be simple GET function (no form required)
-(use del)
+## Why?
+### More beautiful
+[Bootstrap forms](https://getbootstrap.com/docs/3.3/css/#forms) -
+looks nice
+
+### Simpler to use in html
+```html
+<form method="POST">
+  {{ wtf.quick_form(form) }}
+</form>
+```
+
+But first [wtf macro](https://pythonhosted.org/Flask-Bootstrap/macros.html#macros) is required.
+```html
+{% import "bootstrap/wtf.html" as wtf %}
+```
+Add it to `base.html`
