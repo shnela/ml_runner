@@ -50,6 +50,11 @@ def index():
     return render_template('index.html', user_info=user_info)
 
 
+@app.route('/bootstrap_play/')
+def bootstrap_play():
+    return render_template('bootstrap_play.html')
+
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     # show diff between GET and POST
