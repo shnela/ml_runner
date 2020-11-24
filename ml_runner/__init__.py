@@ -28,7 +28,7 @@ from wtforms.validators import (
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 current_dir = os.path.dirname(__file__)
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(current_dir, 'test.db')}"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(current_dir, '..', 'test.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 Bootstrap(app)
