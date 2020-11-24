@@ -1,6 +1,6 @@
 from flask import url_for, request
 
-from main import app
+from ml_runner import app
 
 
 def obtain_value():

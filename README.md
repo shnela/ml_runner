@@ -1,16 +1,9 @@
-# Faker
+# Split down application
 
-Generate randomized users with [Faker](https://pypi.org/project/Faker/)
+Place strict Flask code in nested directory
+[like recommended](https://flask.palletsprojects.com/en/1.1.x/patterns/packages/#simple-packages)
 
-* create `create_user` with const name in `gen_fake_users`.
 
-### Test faker in Python console.
-```python
-from gen_fake_users import Faker
-fake = Faker()
-```
-
-* Test `name`, `email` and `first_name`.
-* rename to `create_users(n)`
-* show how to delete user `db.session.delete(u)`
-* show importance of session commit
+# DB location
+* Run `gen_fake_users.py`
+* We don't want to store database with flask sources
