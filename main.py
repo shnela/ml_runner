@@ -1,5 +1,6 @@
 import os
 from flask import (
+    flash,
     Flask,
     render_template,
     request,
@@ -31,9 +32,9 @@ Bootstrap(app)
 class LoginForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     age = IntegerField('age', validators=[DataRequired(), NumberRange(min=0)])
-    email = StringField('email', validators=[DataRequired(), Email()])
-    password = PasswordField('password', validators=[DataRequired()])
-    password2 = PasswordField('password2', validators=[DataRequired(), EqualTo('password')])
+    # email = StringField('email', validators=[DataRequired(), Email()])
+    # password = PasswordField('password', validators=[DataRequired()])
+    # password2 = PasswordField('password2', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Submit')
 
     def validate_name(self, field):
@@ -43,6 +44,7 @@ class LoginForm(FlaskForm):
 
 @app.route('/')
 def index():
+    flash('index page')
     user_info = {
         'name': session.get('name', 'Unknown'),
         'age': session.get('age', 0),
@@ -60,6 +62,7 @@ def login():
     # show diff between GET and POST
     form = LoginForm()
     if form.validate_on_submit():
+        flash('You were successfully logged in')
         session['name'] = form.name.data
         session['age'] = form.age.data
         return redirect(url_for('index'))
@@ -68,6 +71,7 @@ def login():
 
 @app.route('/logout/', methods=['GET', 'POST'])
 def logout():
+    flash('You were successfully logged out')
     if 'name' in session:
         del session['name']
     if 'name' in session:
