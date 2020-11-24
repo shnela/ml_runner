@@ -1,26 +1,21 @@
-# Integration Flask-WTF with Flask-Bootstrap
+# Revision of FlaskWTF
 
+New fields - email and passwords.
 
-We're using [`Flask-WTF`](https://flask-wtf.readthedocs.io/en/stable/quickstart.html#creating-forms)
-for generating `LoginForm` in `main.py`.  
-We're struggling with displaying it in `login.html`.
-
-Let's integrate `Flask-WTF` with [`Flask-Bootstrap`](https://pythonhosted.org/Flask-Bootstrap/basic-usage.html)
-
-## Why?
-### More beautiful
-[Bootstrap forms](https://getbootstrap.com/docs/3.3/css/#forms) -
-looks nice
-
-### Simpler to use in html
-```html
-<form method="POST">
-  {{ wtf.quick_form(form) }}
-</form>
+```python
+email = StringField('email', validators=[DataRequired(), Email()])
+password = PasswordField('password', validators=[DataRequired()])
+password2 = PasswordField('password2', validators=[DataRequired(), EqualTo('password')])
 ```
 
-But first [wtf macro](https://pythonhosted.org/Flask-Bootstrap/macros.html#macros) is required.
-```html
-{% import "bootstrap/wtf.html" as wtf %}
+But `Email` validator requires new plugin.
+Install `email-validator` using
 ```
-Add it to `base.html`
+Preferences | Project: ml_runner | Python Interpreter | + 
+```
+
+
+### Additional tasks
+* Allow email addresses from from 'protonmail.com' only.
+* Add field where user can optionally chose sex from choices list (user can select only one option).
+* Add field where user can select none or several of options [meat, cheese, chips]
