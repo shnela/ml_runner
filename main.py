@@ -9,6 +9,7 @@ from flask import (
     session
 )
 from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import (
     StringField,
@@ -26,7 +27,18 @@ from wtforms.validators import (
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+current_dir = os.path.dirname(__file__)
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(current_dir, 'test.db')}"
+db = SQLAlchemy(app)
 Bootstrap(app)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
 class LoginForm(FlaskForm):
