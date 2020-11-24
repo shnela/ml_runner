@@ -1,9 +1,15 @@
-# Split down application
+# Separate config
 
-Place strict Flask code in nested directory
-[like recommended](https://flask.palletsprojects.com/en/1.1.x/patterns/packages/#simple-packages)
+[Load config from object](https://flask.palletsprojects.com/en/1.1.x/api/#flask.Config.from_object)
 
+* Save config values in `Config` object in `__init__.py`
 
-# DB location
-* Run `gen_fake_users.py`
-* We don't want to store database with flask sources
+```python
+class Config:
+    SECRET_KEY = ...
+
+...
+app.config.from_object(Config)
+```
+
+* Move config object to new `config.py` file
