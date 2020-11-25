@@ -1,9 +1,7 @@
-# Display users from database
+# Pagination
 
-* pass list of users to template in users_list
-* move blueprints import below db
-* display users in html
-* Create detail page for user `def user_details(user_id):` and `get` proper user
-* display <h1> username </h1> in user detail view template
-* For every user in list add <a href='user datail page link'>link</a>
-* Check what happens for missing id -> `get_or_404`
+* Create 500 users with `gen_fake_users.py`
+* in `users_list` return paginator object `User.query.paginate(page=, per_page=)
+* use `per_page` value defined in settings
+* Show `paginator.iter_pages` in debugger
+* python info about generators
