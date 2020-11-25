@@ -1,8 +1,4 @@
-from flask import (
-    flash,
-    render_template,
-    session
-)
+from flask import render_template
 
 from . import bp
 from ..models import User
@@ -10,12 +6,7 @@ from ..models import User
 
 @bp.route('/')
 def index():
-    flash('index page')
-    user_info = {
-        'name': session.get('name', 'Unknown'),
-        'age': session.get('age', 0),
-    }
-    return render_template('index.html', user_info=user_info)
+    return render_template('index.html')
 
 
 @bp.route('/users/')
@@ -28,9 +19,3 @@ def users_list():
 def user_details(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('user_details.html', user=user)
-
-
-@bp.route('/user/<name>/<amount>/')
-def hello_from_kwargs(name, amount):
-    amount = int(amount)
-    return render_template('hello_from_kwargs.html', name=name, amount=amount)
