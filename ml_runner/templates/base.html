@@ -19,18 +19,18 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('index') }}">Strona główna</a></li>
+        <li><a href="{{ url_for('main.index') }}">Strona główna</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
              aria-expanded="false">Inne linki<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="{{ url_for('hello_from_kwargs', name='Andrzej', amount=2) }}">Andrzej 2</a></li>
-            <li><a href="{{ url_for('hello_from_kwargs', name='admin', amount=2) }}">admin 2</a></li>
-            <li><a href="{{ url_for('hello_from_kwargs', name='krzys', amount=10) }}">krzys 10</a></li>
-            <li><a href="{{ url_for('hello_from_kwargs', name='Pollena', amount=2000) }}">Pollena 2000</a></li>
+            <li><a href="{{ url_for('main.hello_from_kwargs', name='Andrzej', amount=2) }}">Andrzej 2</a></li>
+            <li><a href="{{ url_for('main.hello_from_kwargs', name='admin', amount=2) }}">admin 2</a></li>
+            <li><a href="{{ url_for('main.hello_from_kwargs', name='krzys', amount=10) }}">krzys 10</a></li>
+            <li><a href="{{ url_for('main.hello_from_kwargs', name='Pollena', amount=2000) }}">Pollena 2000</a></li>
           </ul>
         </li>
-        <li><a href="{{ url_for('bootstrap_play') }}">Bootstrap grid</a></li>
+        <li><a href="{{ url_for('main.bootstrap_play') }}">Bootstrap grid</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
@@ -40,8 +40,8 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="{{ url_for('login') }}">Log in</a></li>
-            <li><a href="{{ url_for('logout') }}">Log out</a></li>
+            <li><a href="{{ url_for('main.login') }}">Log in</a></li>
+            <li><a href="{{ url_for('main.logout') }}">Log out</a></li>
           </ul>
         </li>
       </ul>
