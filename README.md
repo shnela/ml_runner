@@ -1,55 +1,71 @@
-# Flask Debug Toolbar
+# `User` has written the `Post` - one to many
+
 [README_PREVIOUS.md](./README_PREVIOUS.md)
 
-[Documentation](https://flask-debugtoolbar.readthedocs.io/en/latest/)
+## Look at our `User` and `Post` models in dBeaver
+```
+test.db -> Tables -> ER Diagram
+```
 
-## Installation
-Your requirements.txt is updated, pyCharm will do the job
+And compare with [this](https://fmhelp.filemaker.com/help/18/fmp/en/index.html#page/FMP_Help/one-to-many-relationships.html)
+explanation.
 
+## One to many in `Flask-SQLAlchemy`
 
-## Update `ml_runner/__init__.py`
+[link](https://flask-sqlalchemy.palletsprojects.com/en/2.x/models/#one-to-many-relationships)
 
-Add following in proper places of `ml_runner/__init__.py`.
 ```python
-from flask_debugtoolbar import DebugToolbarExtension
-toolbar = DebugToolbarExtension(app)
+posts = db.relationship('Post', backref='user', lazy=True)
+user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 ```
 
-## Flask application MUST run in **debug** mode
+We edited only `post` **database table** - we've added `user_id` column.  
 
-We did it previously when settings `FLASK_ENV=development`
+### Test new model in flask shell
+[how to run flask shell](INSTRUCTIONS_TO_COPY.md)
 
-## Python play (dict accessing)
 ```
-# NOT IMPORTANT, I'M JUST GENERATING DICT IN FANCY WAY
->>> letters = 'abcdefgh'
->>> numbers = range(8)
->>> zip(letters, numbers)
-<zip object at 0x10222cbc0>
->>> zip(letters, numbers)[0]
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-TypeError: 'zip' object is not subscriptable
->>> list(zip(letters, numbers))
-[('a', 0), ('b', 1), ('c', 2), ('d', 3), ('e', 4), ('f', 5), ('g', 6), ('h', 7)]
->>> dict(zip(letters, numbers))
-{'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7}
->>> d = dict(zip(letters, numbers))
-
-# EXTREMLY IMPORTANT - ACCESSING DICT ELEMENTS IS CRUCIAL
->>> d.keys()
-dict_keys(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'])
->>> d.values()
-dict_values([0, 1, 2, 3, 4, 5, 6, 7])
->>> d.items()
-dict_items([('a', 0), ('b', 1), ('c', 2), ('d', 3), ('e', 4), ('f', 5), ('g', 6), ('h', 7)])
+>>> from ml_runner.models import Post
+>>> Post.query.first()
+# doesn't work :(
+>>> from ml_runner import db
+>>> db.create_all()
+>>> Post.query.first()
+# did it help?
 ```
 
-## `session_kv_storage` view in `views.py`
-Test:
-* 127.0.0.1:5000/session_kv_storage/key1/42/
-* 127.0.0.1:5000/session_kv_storage/k2/42/
-* 127.0.0.1:5000/session_kv_storage/k3/55/
+But we have to **delete** Post tables and recreate it again.
+[Flask-sqlalchemy](https://flask-migrate.readthedocs.io/en/latest/) would help.
 
-### Do debugging
-`list(session.items())`
+1. **Close flask shell - ctrl-D**
+1. **Delete db file**
+
+Then run in shell
+```
+>>> from ml_runner import db
+>>> from ml_runner.models import Post
+>>> db.create_all()
+>>> Post.query.first()
+# nice!
+```
+
+Generate some users and posts in `gen_fake_models.py`
+
+```
+>>> from ml_runner.models import User, Post
+>>> u = User.query.first()
+>>> p1 = Post.query.first()
+>>> p2 = Post.query.offset(1).first()
+>>> p1.user_id = u.id
+>>> p2.user_id = u.id
+>>> from ml_runner import db
+>>> db.session.add(p1, p2)
+>>> db.session.commit()
+
+# pause for dBeaver
+
+>>> u.posts
+[<Post 1>, <Post 2>]
+>>> p1.user
+<User 'Debra'>
+```

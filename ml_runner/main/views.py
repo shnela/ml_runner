@@ -31,10 +31,3 @@ def posts_list():
 def post_details(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post_details.html', post=post)
-
-
-@bp.route('/session_kv_storage/<key>/<int:val>/')
-def session_kv_storage(key, val):
-    from flask import session, redirect, url_for
-    session[key] = val
-    return redirect(url_for('.index'))

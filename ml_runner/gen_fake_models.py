@@ -33,3 +33,6 @@ if __name__ == '__main__':
     db.create_all()
     delete_all_users()
     delete_all_posts()
+    create_posts(100)
+    create_users(10)
+
