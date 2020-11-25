@@ -1,5 +1,7 @@
 from flask import (
+    current_app,
     flash,
+    request,
     render_template,
     session
 )
@@ -20,8 +22,11 @@ def index():
 
 @bp.route('/users/')
 def users_list():
-    users = User.query.all()
-    return render_template('users_list.html', users=users)
+    page = int(request.values.get('page', 1))
+    users_paginator = User.query.paginate(
+        page=page, per_page=current_app.config['PER_PAGE']
+    )
+    return render_template('users_list.html', users_paginator=users_paginator)
 
 
 @bp.route('/users/<int:user_id>/')

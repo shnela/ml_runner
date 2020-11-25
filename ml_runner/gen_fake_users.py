@@ -22,5 +22,5 @@ if __name__ == '__main__':
     db.create_all()
     delete_all()
     print(User.query.count())
-    create_users(100)
+    create_users(500)
     print(User.query.count())
