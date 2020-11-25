@@ -19,3 +19,16 @@ def users_list():
 def user_details(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('user_details.html', user=user)
+
+
+@bp.route('/posts/')
+def posts_list():
+    """Return posts here, remember about generating href to post_details"""
+    pass
+
+
+@bp.route('/posts/<int:post_id>/')
+def post_details(post_id):
+    """Return post here, remember about displaying both
+    content and creation_date"""
+    pass

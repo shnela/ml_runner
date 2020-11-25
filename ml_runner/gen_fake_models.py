@@ -12,15 +12,22 @@ def create_users(n=10):
     db.session.commit()
 
 
-def delete_all():
-    for user in User.query.all():
-        db.session.delete(user)
+def delete_all_users():
+    User.query.delete()
     db.session.commit()
+
+
+def create_posts(n=10):
+    # define creation of n Posts here
+    pass
+
+
+def delete_all_posts():
+    # delete all Posts here
+    pass
 
 
 if __name__ == '__main__':
     db.create_all()
-    delete_all()
-    print(User.query.count())
-    create_users(100)
-    print(User.query.count())
+    delete_all_users()
+    delete_all_posts()
