@@ -1,5 +1,5 @@
 from ml_runner import db
-from ml_runner.models import User
+from ml_runner.models import User, Post
 from faker import Faker
 
 fake = Faker()
@@ -18,13 +18,15 @@ def delete_all_users():
 
 
 def create_posts(n=10):
-    # define creation of n Posts here
-    pass
+    for _ in range(n):
+        p = Post(content=fake.unique.text())
+        db.session.add(p)
+    db.session.commit()
 
 
 def delete_all_posts():
-    # delete all Posts here
-    pass
+    Post.query.delete()
+    db.session.commit()
 
 
 if __name__ == '__main__':

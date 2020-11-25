@@ -1,7 +1,7 @@
 from flask import render_template
 
 from . import bp
-from ..models import User
+from ..models import User, Post
 
 
 @bp.route('/')
@@ -23,12 +23,11 @@ def user_details(user_id):
 
 @bp.route('/posts/')
 def posts_list():
-    """Return posts here, remember about generating href to post_details"""
-    pass
+    posts = Post.query.all()
+    return render_template('posts_list.html', posts=posts)
 
 
 @bp.route('/posts/<int:post_id>/')
 def post_details(post_id):
-    """Return post here, remember about displaying both
-    content and creation_date"""
-    pass
+    post = Post.query.get_or_404(post_id)
+    return render_template('post_details.html', post=post)
