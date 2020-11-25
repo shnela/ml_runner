@@ -1,4 +1,5 @@
-from ml_runner import db, User
+from ml_runner import db
+from ml_runner.models import User
 from faker import Faker
 
 fake = Faker()
