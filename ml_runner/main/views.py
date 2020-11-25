@@ -17,9 +17,9 @@ def index():
     return render_template('index.html', user_info=user_info)
 
 
-@bp.route('/bootstrap_play/')
-def bootstrap_play():
-    return render_template('bootstrap_play.html')
+@bp.route('/users/')
+def users_list():
+    return render_template('users_list.html')
 
 
 @bp.route('/user/<name>/<amount>/')
