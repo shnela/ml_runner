@@ -1,5 +1,5 @@
-# Move models out of `__init__.py`
+# Blueprints - preparation
 
-* Move `User` class to newly created `models.py`
-* Import `db` in models
-* Fix imports of `User` class - `gen_fake_users`
+* Move `LoginForm` to `forms.py` and views to `views.py`
+* Import missing `app` and `LoginForm` in `views.py`
+* import `views` in __init__.py - decorators have to register methods
