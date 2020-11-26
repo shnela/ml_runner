@@ -8,9 +8,11 @@ cd /cygdrive/c/Users/NobleProg/WorkingDir/
 source ./virtualenvs/cygin_env/bin/activate
 # go to project dir
 cd ./ml_runner
+# export variables
+source ./environment.env
 
 # run flask shell
-FLASK_APP='main.py' SECRET_KEY='123' flask shell
+flask shell
 ```
 
 ## Update virtual env in cygwin

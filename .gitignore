@@ -43,3 +43,6 @@ venv
 
 # PyCharm
 .idea
+
+# environ
+environment.env

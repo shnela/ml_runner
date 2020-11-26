@@ -41,6 +41,6 @@ def delete_all_posts():
 
 if __name__ == '__main__':
     db.create_all()
-    delete_all_users()
     delete_all_posts()
+    delete_all_users()
     create_users(10, posts_per_user=10)
