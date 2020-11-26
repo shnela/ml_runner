@@ -1,116 +1,50 @@
-# REST API
+# Connecting to MariaDB
 
 [README_PREVIOUS.md](./README_PREVIOUS.md)
 
-## REST
-* REpresentational
-* State
-* Transfer
+## Test MariaDB connection
 
-## API
-* Application
-* Programming
-* Interface
+### Connect using dBeaver to MariaDB
+Credentials will be sent on zoom.
 
+### If database works - configure it in flask app
 
-## Facebook
+Set proper env variables in `main` config:
+* `DB_USER`
+* `DB_PASSWORD`
+* `DB_HOST`
+* `DB_NAME`
 
-* [https://www.facebook.com/](https://www.facebook.com/)
-* [https://graph.facebook.com/](https://graph.facebook.com/)
+1. Run application and look at `Users list` and `Posts list`.
+1. Run `regenerate_fake_models.py`
+   1. Fails because of missing db configuration
+   1. Copy `Environment variables` from `main` config
+   1. Save configuration
+1. Run `regenerate_fake_models.py` again.
+1. Run application and check if `Users` and `Posts` were created.
 
-### Let's look at it
+## Connecting to MariaDB with Flask-`SQLAlchemy`
+[Flask-SQLAlchemy - Connection URI Format](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/#connection-uri-format)
+&rarr;
+[SQLAlchemy supported databases](https://docs.sqlalchemy.org/en/14/core/engines.html)
+&rarr;
+[SQLAlchemy - MySQL and MariaDB](https://docs.sqlalchemy.org/en/14/dialects/mysql.html)
 
-#### In web browser
+Also some [StackOverflow answer](https://stackoverflow.com/a/56418030/1565454)
 
-Just type in the request
-
-#### Using [httpie](https://httpie.io/docs)  (It uses `http` command)
-`python` library installed by pip (in our `requirements.txt`)
-
-**update and activate cygwin venv**
-In cygwin:
-```bash
-$ http https://graph.facebook.com/
-$ http https://www.facebook.com
+### You have new requirements in `requirements.txt`
+```
+SQLAlchemy
+PyMySQL
 ```
 
-#### Using [requests](https://requests.readthedocs.io/en/master/)
-`python` library installed by pip (in our `requirements.txt`)
-
-```python
-import requests
-r = requests.get('https://graph.facebook.com/')
-r.text
-r.json()
+### We want to update `Config` with
 ```
-##### JSON
-* JavaScript
-* Object
-* Notation
-
-```python
-d = dict(zip('abc', '123'))
-d['a'] = 0.1
-import json
-json.dumps(d)
-dict_text = json.dumps(d)
-json.loads(dict_text)
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://user:password@host/dbname'
 ```
 
-### Our API
-1. check address using debug toolbar
-1. go there:
-  1. with browser
-  1. with `httpie`
-  1. with python (console e.g.)
+but at the same time be able to keep old values. Just in case...
 
-.
+Split `Config` to `ConfigLocal` and `ConfigRemote`,
+but first, look at [./auxilary_code/python_inheritance.py](./auxilary_code/python_inheritance.py)
 
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-## Please do not look there if you can.
-* http://127.0.0.1:5000/api/v1/users/
-* `http http://127.0.0.1:5000/api/v1/users/`
-```python
-r = requests.get('http://127.0.0.1:5000/api/v1/users/')
-r.json()['users']
-
-r = requests.get('http://127.0.0.1:5000/api/v1/users/10/')
-r.json()
-```
