@@ -13,4 +13,6 @@ Bootstrap(app)
 
 # blueprint registration
 from .main import bp as main_bp
+from .api import bp as api_bp
 app.register_blueprint(main_bp)
+app.register_blueprint(api_bp, url_prefix='/api/v1')
