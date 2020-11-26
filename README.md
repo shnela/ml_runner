@@ -1,50 +1,49 @@
-# Connecting to MariaDB
+# Send ALL code to github
 
 [README_PREVIOUS.md](./README_PREVIOUS.md)
 
-## Test MariaDB connection
+## [DuckDuckgo](https://duckduckgo.com/?q=git+push+all+branches&t=ffab&atb=v192-1&ia=web)
+[first link](https://reactgo.com/git-push-remote-branches/)
 
-### Connect using dBeaver to MariaDB
-Credentials will be sent on zoom.
-
-### If database works - configure it in flask app
-
-Set proper env variables in `main` config:
-* `DB_USER`
-* `DB_PASSWORD`
-* `DB_HOST`
-* `DB_NAME`
-
-1. Run application and look at `Users list` and `Posts list`.
-1. Run `regenerate_fake_models.py`
-   1. Fails because of missing db configuration
-   1. Copy `Environment variables` from `main` config
-   1. Save configuration
-1. Run `regenerate_fake_models.py` again.
-1. Run application and check if `Users` and `Posts` were created.
-
-## Connecting to MariaDB with Flask-`SQLAlchemy`
-[Flask-SQLAlchemy - Connection URI Format](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/#connection-uri-format)
-&rarr;
-[SQLAlchemy supported databases](https://docs.sqlalchemy.org/en/14/core/engines.html)
-&rarr;
-[SQLAlchemy - MySQL and MariaDB](https://docs.sqlalchemy.org/en/14/dialects/mysql.html)
-
-Also some [StackOverflow answer](https://stackoverflow.com/a/56418030/1565454)
-
-### You have new requirements in `requirements.txt`
 ```
-SQLAlchemy
-PyMySQL
+git push --all <remote repo>
 ```
 
-### We want to update `Config` with
+## Generate pair of ssh keys in cygwin
+
+```bash
+$ cd /cygdrive/c/Users/NobleProg/WorkingDir/
+$ ssh-keygen.exe
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/NobleProg/.ssh/id_rsa):
+/home/NobleProg/.ssh/id_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+...
+
+NobleProg@jakub-rxvm /cygdrive/c/Users/NobleProg/WorkingDir
+$ cat ~/.ssh/id_rsa.pub
+ssh-rsa <some random characters> NobleProg@<nazwa maszyny>
 ```
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://user:password@host/dbname'
+
+## Create new repository in github
+
+1. Settings -> Deploy keys -> Add deploy key
+1. Add key
+   1. Set some name
+   1. paste **public key** from cygwin
+   1. check **Allow write access**
+1. Add key
+1. Copy repository ssh path
+
+In cygwin
+```bash
+$ pwd
+/cygdrive/c/Users/NobleProg/WorkingDir
+$ cd ./ml_runner/
+$ git remote add personal git@github.com:shnela/test_upload_all.git
+$ git push --all personal
 ```
 
-but at the same time be able to keep old values. Just in case...
-
-Split `Config` to `ConfigLocal` and `ConfigRemote`,
-but first, look at [./auxilary_code/python_inheritance.py](./auxilary_code/python_inheritance.py)
-
+**Rememeber about pushing changes at the end of the day**
