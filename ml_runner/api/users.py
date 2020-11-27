@@ -56,6 +56,13 @@ class UserEndpoint(Resource):
         db.session.commit()
         return user
 
+    @marshal_with(simple_user_fields)
+    def delete(self, user_id):
+        user = db.session.query(ReflectedUser).get_or_404(user_id)
+        db.session.delete(user)
+        db.session.commit()
+        return user
+
 
 api.add_resource(UsersEndpoint, '/users/')
 api.add_resource(UserEndpoint, '/users/<int:user_id>/')
