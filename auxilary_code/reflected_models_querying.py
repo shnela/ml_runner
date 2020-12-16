@@ -2,62 +2,63 @@ from datetime import datetime, timedelta
 
 from sqlalchemy import and_
 
-from ml_runner.models import User, ShortMessageService
+from ml_runner import db
+from ml_runner.reflected_models import ReflectedUser, ReflectedShortMessageService
 
 
 def get_all_users():
-    users = User.query.all()
+    users = db.session.query(ReflectedUser).all()
     return users
 
 
 def get_user_by_id(user_id):
-    user = User.query.get(user_id)
+    user = db.session.query(ReflectedUser).get(user_id)
     return user
 
 
 def get_users_by_first_name(first_name):
-    users = User.query.filter_by(first_name=first_name)
+    users = db.session.query(ReflectedUser).filter_by(first_name=first_name)
     return users.all()
 
 
 def get_users_first_name_other_method(first_name):
-    users = User.query.filter(User.first_name == first_name)
+    users = db.session.query(ReflectedUser).filter(ReflectedUser.first_name == first_name)
     return users.all()
 
 
 def get_user_by_msisdn_prefix(msisdn_prefix):
-    users = User.query.filter(User.msisdn.startswith(msisdn_prefix))
+    users = db.session.query(ReflectedUser).filter(ReflectedUser.msisdn.startswith(msisdn_prefix))
     return users.all()
 
 
 def get_all_messages_sent_n_days_ago(days_ago):
     since = datetime.now() - timedelta(days=days_ago)
-    messages = ShortMessageService.query.filter(ShortMessageService.send_date > since)
+    messages = db.session.query(ReflectedShortMessageService).filter(ReflectedShortMessageService.send_date > since)
     return messages.all()
 
 
 # TASK 1
 
 def get_all_messages():
-    return ShortMessageService.query.all()
+    return db.session.query(ReflectedShortMessageService).all()
 
 
 def get_message_by_id(message_id):
-    return ShortMessageService.query.get(message_id)
+    return db.session.query(ReflectedShortMessageService).get(message_id)
 
 
 def get_messages_send_by(user_id):
-    return ShortMessageService.query.filter_by(sending_party_id=user_id)
+    return db.session.query(ReflectedShortMessageService).filter_by(sending_party_id=user_id)
 
 
 def get_messages_send_to(user_id):
-    return ShortMessageService.query.filter_by(sent_party_id=user_id)
+    return db.session.query(ReflectedShortMessageService).filter_by(sent_party_id=user_id)
 
 
 def get_message_containing(text):
     # should return all messages which have `text` in `content`
-    return ShortMessageService.query.filter(
-        ShortMessageService.content.contains(text)
+    return db.session.query(ReflectedShortMessageService).filter(
+        ReflectedShortMessageService.content.contains(text)
     )
 
 
@@ -69,10 +70,10 @@ def get_messages_sent_between(datetime_after, datetime_before=None):
     # http://www.leeladharan.com/sqlalchemy-query-with-or-and-like-common-filters
     if datetime_before is None:
         datetime_before = datetime.now()
-    messages = ShortMessageService.query.filter(
+    messages = db.session.query(ReflectedShortMessageService).filter(
         and_(
-            datetime_after < ShortMessageService.send_date,
-            ShortMessageService.send_date < datetime_before,
+            datetime_after < ReflectedShortMessageService.send_date,
+            ReflectedShortMessageService.send_date < datetime_before,
         )
     )
     return messages.all()
@@ -81,16 +82,16 @@ def get_messages_sent_between(datetime_after, datetime_before=None):
 def get_messages_received_by_users_with_last_name(last_name):
     # return all messages received by users whose last_name is `last_name` (there may be several such users)
     messages = list()
-    for user in User.query.filter_by(last_name=last_name).all():
-        for message in ShortMessageService.query.filter_by(sent_party_id=user.id).all():
+    for user in db.session.query(ReflectedUser).filter_by(last_name=last_name).all():
+        for message in db.session.query(ReflectedShortMessageService).filter_by(sent_party_id=user.id).all():
             messages.append(message)
     return messages
 
 
 def get_messages_received_by_users_with_last_name_nice_way(last_name):
     # return all messages received by users whose last_name is `last_name` (there may be several such users)
-    for user in User.query.filter_by(last_name=last_name).all():
-        yield from ShortMessageService.query.filter_by(sent_party_id=user.id).all()
+    for user in db.session.query(ReflectedUser).filter_by(last_name=last_name).all():
+        yield from db.session.query(ReflectedShortMessageService).filter_by(sent_party_id=user.id).all()
 
 
 if __name__ == '__main__':
