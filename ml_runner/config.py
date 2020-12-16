@@ -2,11 +2,6 @@ import os
 
 current_dir = os.path.dirname(__file__)
 
-DB_USER = os.environ.get('DB_USER')
-DB_PASSWORD = os.environ.get('DB_PASSWORD')
-DB_HOST = os.environ.get('DB_HOST')
-DB_NAME = os.environ.get('DB_NAME')
-
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -18,4 +13,4 @@ class ConfigLocal(Config):
 
 
 class ConfigRemote(Config):
-    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')

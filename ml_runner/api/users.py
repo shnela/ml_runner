@@ -3,7 +3,7 @@ from flask_restful import Resource
 from . import api
 
 
-fake_user = {'username': 'Olo'}
+fake_user = {'first_name': 'Olo'}
 
 
 class UsersEndpoint(Resource):
