@@ -1,12 +1,12 @@
-from sqlalchemy.ext.automap import automap_base
-
 from ml_runner import db
 
-Base = automap_base()
 
-engine = db.engine
+class ReflectedUser(db.Model):
+    __table_args__ = {'extend_existing': True}
+    __tablename__ = 'user'
 
-Base.prepare(engine, reflect=True)
 
-ReflectedUser = Base.classes.user
-ReflectedShortMessageService = Base.classes.short_message_service
+class ReflectedShortMessageService(db.Model):
+    __table_args__ = {'extend_existing': True}
+    __tablename__ = 'short_message_service'
+    __bind_key__ = 'db2'

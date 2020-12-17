@@ -14,3 +14,6 @@ class ConfigLocal(Config):
 
 class ConfigRemote(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_BINDS = {
+        'db2': os.environ.get('SQLALCHEMY_DATABASE_URI2'),
+    }
