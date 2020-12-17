@@ -55,4 +55,5 @@ if __name__ == '__main__':
     db.create_all()
     delete_all_messages()
     delete_all_users()
-    create_users(10, messages_per_user=10)
+    # create_users(10, messages_per_user=10)
+    create_users(10, messages_per_user=0)

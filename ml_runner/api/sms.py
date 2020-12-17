@@ -18,6 +18,11 @@ sms_mfields = {
     'sent_party_id': fields.Integer,
 }
 
+post_parser = reqparse.RequestParser()
+post_parser.add_argument('content', dest='content', required=True, help='SMS content')
+post_parser.add_argument('sending_party_id', dest='sending_party_id', required=True)
+post_parser.add_argument('sent_party_id', dest='sent_party_id', required=True)
+
 
 class SMSsEndpoint(Resource):
     @marshal_with(sms_mfields, envelope='messages')
@@ -33,19 +38,53 @@ class SMSsEndpoint(Resource):
             date_from = datetime.fromisoformat(date_from_isoformat)
             sms_qs = sms_qs.filter(ReflectedShortMessageService.send_date > date_from)
 
+        # filter by text
+        text = request.args.get('text')
+        if text is not None:
+            sms_qs = sms_qs.filter(ReflectedShortMessageService.content.contains(text))
+
         # paginate results
         page = int(request.args.get('page', 1))
         sms_qs = sms_qs.offset(PER_PAGE * (page - 1)).limit(PER_PAGE)
 
         return sms_qs.all()
 
+    @marshal_with(sms_mfields, envelope='message')
+    def post(self):
+        args = post_parser.parse_args()
+        sms = ReflectedShortMessageService(
+            send_date=datetime.now(),
+            **args,
+        )
+        db.session.add(sms)
+        db.session.commit()
+        return sms
 
+
+put_parser = reqparse.RequestParser()
+put_parser.add_argument('content', dest='content', required=True, help='SMS content')
 
 
 class SMSEndpoint(Resource):
     @marshal_with(sms_mfields, envelope='message')
     def get(self, sms_id):
         return db.session.query(ReflectedShortMessageService).get_or_404(sms_id)
+
+    @marshal_with(sms_mfields, envelope='message')
+    def put(self, sms_id):
+        args = put_parser.parse_args()
+        sms = db.session.query(ReflectedShortMessageService).get_or_404(sms_id)
+        sms.content = args['content']
+        db.session.add(sms)
+        db.session.commit()
+        return sms
+
+    @marshal_with(sms_mfields, envelope='message')
+    def delete(self, sms_id):
+        sms = db.session.query(ReflectedShortMessageService).get_or_404(sms_id)
+        db.session.delete(sms)
+        db.session.commit()
+        return sms
 
 
 api.add_resource(SMSsEndpoint, '/sms/')

@@ -1,36 +1,50 @@
-# REST API - Filtering and pagination
+# REST API - modifications
 
 [README_PREVIOUS.md](./README_PREVIOUS.md)
 
+## POST PUT [(CRUD)](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)
 
-## Reflected model is back to normal
-`ml_runner/reflected_models.py`
+[parsing input](https://flask-restful.readthedocs.io/en/latest/api.html?highlight=RequestParser#module-reqparse)
 
+
+## Test endpoints in Postman
+
+### POST http://127.0.0.1:5000/api/v1/sms/
+Without Params, should inform about missing Parameters.
+
+
+### POST http://127.0.0.1:5000/api/v1/sms/
+With Params:
+* content - 'sms content, text of sms'
+* sending_party_id - some existing id of user
+* sent_party_id - some existing id of user
+
+Should return something like:
 ```
-ReflectedUser = Base.classes.user
-ReflectedShortMessageService = Base.classes.short_message_service
+{
+    "message": {
+        "id": 603,
+        "content": "content of SMS",
+        "send_date": "Thu, 17 Dec 2020 02:34:11 -0000",
+        "sending_party_id": 71,
+        "sent_party_id": 72
+    }
+}
 ```
 
-`relation` fields aren't updated.
+### PUT http://127.0.0.1:5000/api/v1/sms/<id from response above>/
+With Params:
+* content - 'New content of SMS'
 
-## `ml_runner/api/users.py` is updated
-
-### Args arguments
-Get parameters like this:  
-http://127.0.0.1:5000/api/v1/users/?last_name=something
-
-## `ml_runner/api/sms.py` is updated
-
-### Args arguments
-Look at endpoints
-http://127.0.0.1:5000/api/v1/sms/
-http://127.0.0.1:5000/api/v1/sms/?page=1
-http://127.0.0.1:5000/api/v1/sms/?page=2
-http://127.0.0.1:5000/api/v1/sms/?date_from=2020-12-01T22:52:37.596841
-http://127.0.0.1:5000/api/v1/sms/?date_from=2021-12-01T22:52:37.596841
-
-
-## Task 1
-If `SMSsEndpoint` is called with parameter `text`, return only messages which `content` contains `text`.
-
-You may use example from `auxilary_code/reflected_models_querying.py:get_message_containing`
+Should return something like:
+```
+{
+    "message": {
+        "id": 603,
+        "content": "new content",
+        "send_date": "Thu, 17 Dec 2020 02:34:11 -0000",
+        "sending_party_id": 71,
+        "sent_party_id": 72
+    }
+}
+```
