@@ -7,7 +7,8 @@ fake_user = {'first_name': 'Olo'}
 
 
 class UsersEndpoint(Resource):
-    def get(self, **kwargs):
+    def get(self):
+        # returns list of all users
         users = [fake_user for _ in range(10)]
         return {
             'users': users
@@ -15,7 +16,15 @@ class UsersEndpoint(Resource):
 
 
 class UserEndpoint(Resource):
-    def get(self, **kwargs):
+    def get(self, user_id):
+        # downloads particular user
+        user = fake_user
+        return {
+            'user': user
+        }
+
+    def put(self, user_id):
+        # updates user
         user = fake_user
         return {
             'user': user

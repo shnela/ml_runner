@@ -1,27 +1,29 @@
-# Work with external database schema
+# REST API basics
 
 [README_PREVIOUS.md](./README_PREVIOUS.md)
 
-## [Specifying Classes Explicitly](https://docs.sqlalchemy.org/en/13/orm/extensions/automap.html#specifying-classes-explicitly)
-Classes are defined in `reflected_models.py`.
+## What's REST API?
+API - Application Programming Interface
 
-### Where do they come form?
-Explained in `auxilary_code/reflected_models_discovery.py`
+https://restfulapi.net/
+
+## Look at our custom api
+In file `ml_runner/api/users.py`
 
 
-### We now use `reflected models` **only**
+## And send some GET requests
+With `postman`:
+* http://127.0.0.1:5000/api/v1/users/
+* http://127.0.0.1:5000/api/v1/users/<some_id>
 
-Look at new `auxilary_code/reflected_models_querying.py`
+## POST doesn't work
 
-But [SQLAlchemy query style](https://docs.sqlalchemy.org/en/14/orm/session_basics.html#querying-1-x-style)
-was required...
+#### Using [requests](https://requests.readthedocs.io/en/master/)
+`python` library installed by pip (in our `requirements.txt`)
 
-Instead of:
-```
-User.query.all()
-```
-
-There's
-```
-db.session.query(ReflectedUser).all()
+```python
+import requests
+r = requests.get('https://graph.facebook.com/')
+r.text
+r.json()
 ```
