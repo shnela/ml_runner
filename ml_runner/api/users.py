@@ -1,3 +1,4 @@
+from flask import request
 from flask_restful import Resource
 from flask_restful import fields, marshal_with
 
@@ -16,8 +17,11 @@ user_mfields = {
 class UsersEndpoint(Resource):
     @marshal_with(user_mfields, envelope='users')
     def get(self):
-        users = db.session.query(ReflectedUser).all()
-        return users
+        users_qs = db.session.query(ReflectedUser)
+        last_name = request.args.get('last_name')
+        if last_name:
+            users_qs = users_qs.filter_by(last_name=last_name)
+        return users_qs.all()
 
 
 class UserEndpoint(Resource):
