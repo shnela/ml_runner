@@ -5,7 +5,7 @@ from flask_restful import Resource, reqparse
 from flask_restful import fields, marshal_with
 
 from . import api
-from .. import db
+from .. import db, basic_auth
 from ..reflected_models import ReflectedShortMessageService
 
 PER_PAGE = 10
@@ -49,6 +49,7 @@ class SMSsEndpoint(Resource):
 
         return sms_qs.all()
 
+    @basic_auth.required
     @marshal_with(sms_mfields, envelope='message')
     def post(self):
         args = post_parser.parse_args()
@@ -70,6 +71,7 @@ class SMSEndpoint(Resource):
     def get(self, sms_id):
         return db.session.query(ReflectedShortMessageService).get_or_404(sms_id)
 
+    @basic_auth.required
     @marshal_with(sms_mfields, envelope='message')
     def put(self, sms_id):
         args = put_parser.parse_args()
@@ -79,6 +81,7 @@ class SMSEndpoint(Resource):
         db.session.commit()
         return sms
 
+    @basic_auth.required
     @marshal_with(sms_mfields, envelope='message')
     def delete(self, sms_id):
         sms = db.session.query(ReflectedShortMessageService).get_or_404(sms_id)
