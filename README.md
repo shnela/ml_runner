@@ -1,46 +1,66 @@
-# REST API - user authentication
+# Deployment
 
 [README_PREVIOUS.md](./README_PREVIOUS.md)
 
-[Flask-BasicAuth](https://flask-basicauth.readthedocs.io/en/latest/)
 
-## Add new env variables to configuration
-* BASIC_AUTH_USERNAME=user
-* BASIC_AUTH_PASSWORD=pass
+## Standalone VM using uWSGi
+Requirements:
+* uWSGI https://uwsgi-docs.readthedocs.io/en/latest/
+* apache
 
-**Remember that those data should be keep secret on production**
-
-### In config
+Instalation of requirements:
 ```
-BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME')
-BASIC_AUTH_PASSWORD = os.environ.get('BASIC_AUTH_PASSWORD')
-BASIC_AUTH_FORCE = True
-```
-
-### How to access api endpoints?
-https://www.toolsqa.com/postman/basic-authentication-in-postman/
-
-1. In postman add header: (Authorization: Basic user:pass)
-1. But header must use Base64 encoding, use https://www.base64encode.org/
-1. Finally set header: (Authorization: Basic dXNlcjpwYXNz)
-
-Should work.  
-http://127.0.0.1:5000/api/v1/users/
-
-### What about python
-```
-import requests
-r = requests.get('http://127.0.0.1:5000/api/v1/users/')
-r.status_code
-401
-r = requests.get('http://127.0.0.1:5000/api/v1/users/', headers={'Authorization': 'Basic dXNlcjpwYXNz'})
-r.status_code
-200
+# sudo apt-get install uwsgi
+# apt-get install uwsgi-plugin-python
+# apt-get install python3
+# apt-get install python3-venv
+apt-get install build-essential python3-dev
+# sudo apt-get install apache2 libapache2-mod-wsgi
 ```
 
-### You may want to protect only part of views:
-Disable `BASIC_AUTH_FORCE = True` in `Config`
+## Clone repo from github
+Result:
+```
+www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ ll /srv/ml_runner/
+total 48
+drwxr-xr-x 5 www  www  4096 Dec 17 02:24 ./
+drwxr-xr-x 3 root root 4096 Dec 17 02:24 ../
+drwxr-xr-x 8 www  www  4096 Dec 17 02:24 .git/
+-rw-r--r-- 1 www  www   415 Dec 17 02:24 .gitignore
+-rw-r--r-- 1 www  www   800 Dec 17 02:24 INSTRUCTIONS_TO_COPY.md
+-rw-r--r-- 1 www  www  1294 Dec 17 02:24 README.md
+-rw-r--r-- 1 www  www  1174 Dec 17 02:24 README_PREVIOUS.md
+drwxr-xr-x 2 www  www  4096 Dec 17 02:24 auxilary_code/
+-rw-r--r-- 1 www  www   169 Dec 17 02:24 environment_template.env
+-rw-r--r-- 1 www  www    68 Dec 17 02:24 main.py
+drwxr-xr-x 5 www  www  4096 Dec 17 02:24 ml_runner/
+-rw-r--r-- 1 www  www   955 Dec 17 02:24 requirements.txt
+www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ git pull
+Already up to date.
+```
 
-And decorate protected endpoints with `@basic_auth.required`.
+`www` user is owner
 
-Endpoints which save to database are updated in `ml_runner/api/sms.py`
+## uWSGI deployment
+https://flask.palletsprojects.com/en/1.1.x/deploying/wsgi-standalone/#uwsgi
+
+### Create env
+```
+(ml_runner_env) www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ python3 -m venv ~/.envs/ml_runner_env
+(ml_runner_env) www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ source ~/.envs/ml_runner_env/bin/activate
+(ml_runner_env) www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ pip install -r requirements.txt
+...
+(ml_runner_env) www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ pip install uwsgi
+...
+```
+
+### And run uwsgi
+```
+(ml_runner_env) www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ source ./deployment/environment.env 
+(ml_runner_env) www@ubuntu-s-1vcpu-1gb-fra1-01:/srv/ml_runner$ uwsgi --http 0.0.0.0:5000 --module ml_runner:app
+```
+
+And http://46.101.133.20:5000/api/v1/users/ works
+
+## But it should be handled by proper server (Nginx or Apache)
+**It's important to have ssl certificate configured**

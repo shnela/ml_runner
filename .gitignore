@@ -45,4 +45,4 @@ venv
 .idea
 
 # environ
-environment.env
+deployment/environment.env
