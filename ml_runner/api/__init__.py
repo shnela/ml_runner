@@ -6,3 +6,4 @@ bp = Blueprint('api', __name__)
 api = Api(bp)
 
 from . import users
+from . import sms
